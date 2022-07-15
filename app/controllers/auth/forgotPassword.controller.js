@@ -1,12 +1,12 @@
-const User = require('../../models/user.model');
-const bcrypt = require('bcrypt');
-const mailer = require('../../utils/mailer');
+import User from '../../models/user.model.js';
+import bcrypt from 'bcrypt';
+import {sendMail} from '../../utils/mailer.js';
 
-exports.showForgotForm = (req, res) => {
+export const showForgotForm = (req, res) => {
     res.render('auth/passwords/email');
 }
 
-exports.sendResetLinkEmail = (req, res) => {
+export const sendResetLinkEmail = (req, res) => {
     if (!req.body.email) {
         res.redirect('/password/reset')
     } else {
@@ -15,7 +15,7 @@ exports.sendResetLinkEmail = (req, res) => {
                 res.redirect('/password/reset')
             } else {
                 bcrypt.hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-                    mailer.sendMail(user.email, "Reset password", `<a href="${process.env.APP_URL}/password/reset/${user.email}?token=${hashedEmail}"> Reset Password </a>`)
+                    sendMail(user.email, "Reset password", `<a href="${process.env.APP_URL}/password/reset/${user.email}?token=${hashedEmail}"> Reset Password </a>`)
                     console.log(`${process.env.APP_URL}/password/reset/${user.email}?token=${hashedEmail}`);
                 })
                 res.redirect('/password/reset?status=success')
@@ -24,7 +24,7 @@ exports.sendResetLinkEmail = (req, res) => {
     }
 }
 
-exports.showResetForm = (req, res) => {
+export const showResetForm = (req, res) => {
     if (!req.params.email || !req.query.token) {
         res.redirect('/password/reset')
     } else {
@@ -32,7 +32,7 @@ exports.showResetForm = (req, res) => {
     }
 }
 
-exports.reset = (req, res) => {
+export const reset = (req, res) => {
     const { email, token, password } = req.body;
     console.log(email, token, password);
     if (!email || !token || !password) { 

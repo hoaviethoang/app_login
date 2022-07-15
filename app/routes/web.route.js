@@ -1,11 +1,10 @@
-const authMiddleware = require('../middlewares/auth.middleware');
+import express from 'express'; 
+import {loggedin} from '../middlewares/auth.middleware.js';
 
-module.exports = app => {
-    var router = require('express').Router();
+const router = express.Router();
 
-    router.get('/home', authMiddleware.loggedin, (req, res) => {
-        res.render('home');
-    });
+router.get('/home', loggedin, (req, res) => {
+  res.render('home');
+});
 
-    app.use(router);
-}
+export default router;

@@ -1,9 +1,10 @@
-const sql = require("./db");
+import sql from './db.js';
 
 const User = function(user){
     this.name = user.name;
     this.password = user.password;
     this.email = user.email;
+    this.email_verified_at = user.email_verified_at;
 };
 
 User.create = (newUser, result) => {
@@ -70,4 +71,4 @@ User.resetPassword = (email, password, result) => {
     );
 };
 
-module.exports = User;
+export default User;

@@ -1,7 +1,7 @@
-const mysql = require("mysql");
-const dbConfig = require("../config/db.config");
+import mysql from 'mysql';
+import dbConfig from"../config/db.config.js";
 
-const connection = mysql.createConnection({
+const sql = mysql.createConnection({
     host: dbConfig.host,
     port: 33306,
     user: dbConfig.user,
@@ -9,9 +9,9 @@ const connection = mysql.createConnection({
     database: dbConfig.database
 });
 
-connection.connect(error => {
+sql.connect(error => {
     if (error) throw error;
     console.log("Successfully connected to the database");
 })
 
-module.exports = connection;
+export default sql;

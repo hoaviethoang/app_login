@@ -1,9 +1,11 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
+import session  from 'express-session';
+import {} from 'dotenv/config';
+import authrouter from './app/routes/auth.route.js' ;
+import webrouter from './app/routes/web.route.js' ;
 const app = express();
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-const session = require('express-session');
-require('dotenv/config');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
@@ -30,7 +32,9 @@ app.get('/', (req, res, next) => {
     res.render('index');
 })
 
-require('./app/routes/route')(app);
+app.use('/', authrouter);
+app.use('/', webrouter);
+
 
 app.listen(3000, function() {
     console.log('server running: http://localhost:3000');

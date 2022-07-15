@@ -1,13 +1,13 @@
-const User = require('../../models/user.model');
-const bcrypt = require('bcrypt');
-require('dotenv/config');
-const mailer = require('../../utils/mailer');
+import User from '../../models/user.model.js';
+import bcrypt from'bcrypt';
+import {} from 'dotenv/config';
+import {sendMail} from '../../utils/mailer.js';
 
-exports.create = (req, res) => {
+export const create = (req, res) => {
     res.render('auth/register');
 }
 
-exports.register = (req, res) => {
+export const register = (req, res) => {
     const { email, password, name } = req.body;
 
     if (email && password && name) {
@@ -30,7 +30,7 @@ exports.register = (req, res) => {
                 if (!err) {
                     bcrypt.hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
                         console.log(`${process.env.APP_URL}/verify?email=${user.email}&token=${hashedEmail}`);
-                        mailer.sendMail(user.email, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${user.email}&token=${hashedEmail}"> Verify </a>`)
+                        sendMail(user.email, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${user.email}&token=${hashedEmail}"> Verify </a>`)
                     });
                     
                     res.redirect('/login');
@@ -43,7 +43,7 @@ exports.register = (req, res) => {
     }
 }
 
-exports.verify = (req, res) => {
+export const verify = (req, res) => {
     bcrypt.compare(req.query.email, req.query.token, (err, result) => {
         if (result == true) {
             User.verify(req.query.email, (err, result) => {
@@ -58,3 +58,4 @@ exports.verify = (req, res) => {
         }
     })
 }
+export default verify;

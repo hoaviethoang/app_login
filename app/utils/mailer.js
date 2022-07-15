@@ -1,8 +1,8 @@
-const nodeMailer = require('nodemailer');
-const mailConfig = require('../config/mail.config');
-require('dotenv/config');
+import nodeMailer from 'nodemailer';
+import mailConfig from '../config/mail.config.js';
+import {} from 'dotenv/config';
 
-exports.sendMail = (to, subject, htmlContent) => {
+export const sendMail = (to, subject, htmlContent) => {
     const transport = nodeMailer.createTransport({
         host: mailConfig.HOST,
         port: mailConfig.PORT,
@@ -21,3 +21,4 @@ exports.sendMail = (to, subject, htmlContent) => {
     }
     return transport.sendMail(options);
 }
+export default sendMail;

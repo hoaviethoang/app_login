@@ -11,7 +11,7 @@
     <div class="login-form">
         <h1>Register Form</h1>
         <form action="/register" method="POST">
-			<input type="text" name="name" placeholder="name" 
+			      <input type="text" name="name" placeholder="name" 
                 <% if (typeof name != "undefined" && name) { %> value="<%= name %>"<% } %> required>
             <input type="text" name="email" placeholder="Email" 
                 <% if (typeof email != "undefined" && email) { %> value="<%= email %>"<% } %>  required>

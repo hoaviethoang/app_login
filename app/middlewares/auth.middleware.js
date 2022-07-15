@@ -1,4 +1,4 @@
-exports.loggedin = (req, res, next) => {
+export const loggedin = (req, res, next) => {
     if (req.session.loggedin) {
         res.locals.user = req.session.user
         next();
@@ -7,7 +7,7 @@ exports.loggedin = (req, res, next) => {
     }
 }
 
-exports.isAuth = (req, res, next) => {
+export const isAuth = (req, res, next) => {
     if (req.session.loggedin) {
         res.locals.user = req.session.user
         res.redirect('/home');

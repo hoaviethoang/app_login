@@ -1,27 +1,27 @@
-const login = require('../controllers/auth/login.controller');
-const register = require('../controllers/auth/register.controller');
-const authMiddleware = require('../middlewares/auth.middleware');
-const forgotPassword = require('../controllers/auth/forgotPassword.controller');
+import {showLoginForm,login,logout} from '../controllers/auth/login.controller.js';
+import {create,register,verify} from '../controllers/auth/register.controller.js';
+import {loggedin,isAuth} from '../middlewares/auth.middleware.js';
+import {showForgotForm,sendResetLinkEmail,showResetForm
+  ,reset} from '../controllers/auth/forgotPassword.controller.js';
+import express from 'express';
+const router = express.Router()
 
-module.exports = app => {
-    var router = require('express').Router();
+router.get('/login', isAuth, showLoginForm)
+router.post('/login', login)
 
-    router.get('/login', authMiddleware.isAuth, login.showLoginForm)
-    .post('/login', login.login)
+router.get('/register', isAuth, create)
+router.post('/register', register)
 
-    .get('/register', authMiddleware.isAuth, register.create)
-    .post('/register', register.register)
+router.get('/logout', loggedin, logout)
 
-    .get('/logout', authMiddleware.loggedin, login.logout)
+router.get('/verify', verify)
 
-    .get('/verify', register.verify)
+router.get('/password/reset', showForgotForm)
+router.post('/password/email', sendResetLinkEmail)
 
-    .get('/password/reset', forgotPassword.showForgotForm)
-    .post('/password/email', forgotPassword.sendResetLinkEmail)
+router.get('/password/reset/:email', showResetForm)
+router.post('/password/reset', reset)
 
-    .get('/password/reset/:email', forgotPassword.showResetForm)
-    .post('/password/reset', forgotPassword.reset)
+export default router;
 
 
-    app.use(router);
-}

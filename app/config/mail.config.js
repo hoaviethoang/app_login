@@ -1,6 +1,6 @@
-require('dotenv/config');
+import {} from 'dotenv/config';
 
-module.exports = {
+const mailConfig ={
     MAILER: process.env.MAIL_MAILER,
     HOST: process.env.MAIL_HOST,
     PORT: process.env.MAIL_PORT,
@@ -10,3 +10,4 @@ module.exports = {
     FROM_ADDRESS: process.env.MAIL_FROM_ADDRESS,
     FROM_NAME: process.env.MAIL_FROM_NAME,
 }
+export default mailConfig;

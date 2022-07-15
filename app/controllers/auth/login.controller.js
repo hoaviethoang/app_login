@@ -1,21 +1,24 @@
-const User = require('../../models/user.model');
-const bcrypt = require('bcrypt');
+import User from'../../models/user.model.js';
+import {} from '../../models/db.js'
+import bcrypt from 'bcrypt';
 
-exports.showLoginForm = (req, res) => {
+export const showLoginForm = (req, res) => {
     res.render('auth/login');
 }
 
-exports.login = (req, res) => {
+export const login = (req, res) => {
     const { email, password } = req.body;
     
-    if (email && password) {
-        User.findByEmail(email, (err, user) => {
+    
+    if (email && password ) {
+        User.findByEmail(email, (err, user) =>  {
             if (!user) {
                 res.redirect('/login');
             } else {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (result == true) {
                         req.session.loggedin = true;
+                        console.log(req.session.loggedin)
                         req.session.user = user;
                         res.redirect('/home');
                     } else {
@@ -33,7 +36,7 @@ exports.login = (req, res) => {
     }
 }
 
-exports.logout = (req, res) => {
+export const logout = (req, res) => {
     req.session.destroy((err) => {
         if (err) res.redirect('/500');
         res.redirect('/');
